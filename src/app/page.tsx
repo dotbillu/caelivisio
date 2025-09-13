@@ -3,6 +3,7 @@
 import "cesium/Build/Cesium/Widgets/widgets.css"; // css import works in next
 import dynamic from "next/dynamic";
 import Sidebar from "./components/sidebar";
+import Table from "./components/right_table";
 
 const Earth = dynamic(() => import("./components/earth"), { ssr: false });
 
@@ -16,6 +17,9 @@ export default function Home() {
       <div className="fixed top-4 left-4 z-50 mt-4">
         <Sidebar />
       </div>
+
+      <Table />
+
     </div>
   );
 }

@@ -10,7 +10,7 @@ import {
 
 export default function Sidebar() {
   return (
-    <div className="fixed flex flex-col top-0 left-0 m-2 shadow shadow-gray-50 w-max h-max rounded-[6px] bg-black/70 pl-1  pr-10 p-5  mt-7 ml-5">
+    <div className="fixed flex flex-col top-0 left-0 m-2 shadow shadow-gray-50 w-max h-max rounded-[6px] bg-black/70 pl-1  pr-10 pt-7 p-5  mt-10 ml-5">
       <div className="size-auto flex flex-col gap-y-5">
         <SpeedComponent />
         <DebrisToggleComponent />
