@@ -8,6 +8,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+
         className={"bg-[var(--color-bg-dark)] text-[var(--color-text-dark)]"}
       >
        
