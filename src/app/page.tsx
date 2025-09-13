@@ -9,9 +9,9 @@ const Earth = dynamic(() => import("./components/earth"), { ssr: false });
 export default function Home() {
   return (
     <div className="relative w-screen h-screen">
-      <div className="absolute inset-0 z-0 m-4 bg-black">
-        <Earth />
-      </div>
+      {/* <div className="absolute inset-0 z-0 m-30 bg-black"> */}
+      {/*   <Earth /> */}
+      {/* </div> */}
 
       <div className="fixed top-4 left-4 z-50">
         <Sidebar />

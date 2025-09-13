@@ -1,7 +1,10 @@
-@import "tailwindcss";
+ @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Slab:wght@100..900&family=Saira+Stencil+One&display=swap");
+ @import "tailwindcss";
 
 @theme {
   --color-bg-dark: #030712;
-  --color-text-dark: #fff;
+  --color-text-dark: #ffffff;
+   --font-roboto-slab :"Roboto slab",serif;
 }
+
 

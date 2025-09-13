@@ -12,8 +12,9 @@
   "dependencies": {
     "cesium": "^1.133.1",
     "dotenv": "^17.2.2",
+    "jotai": "^2.14.0",
     "next": "15.5.3",
-    "react": "19.1.0" ,
+    "react": "19.1.0",
     "react-dom": "19.1.0",
     "resium": "^1.19.0-beta.1",
     "webpack": "^5.101.3"
