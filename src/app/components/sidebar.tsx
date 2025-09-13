@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import { DebrisStatusAtom, speedAtom, speedtype } from "./store";
-import { Switch } from "@material-tailwind/react";
+import { useEffect } from "react";
 
 export default function Sidebar() {
   return (
@@ -17,18 +17,29 @@ export default function Sidebar() {
   );
 }
 
-function DebrisToggleComponent() {
-  const [DebrisStatus,SetDebrisStatus]=useAtom(DebrisStatusAtom);
+export function DebrisToggleComponent() {
+  const [DebrisStatus, setDebrisStatus] = useAtom(DebrisStatusAtom);
+  useEffect(() => {
+    console.log(DebrisStatus);
+  }, [DebrisStatus]);
   return (
-    <>
-      <div className="flex  justify-center">
-        <div className="font-roboto-slab">Show Debris</div>
-
-        <div>
-          <Switch onChange={SetDebrisStatus(!DebrisStatus)} ></Switch>
-        </div>
+    <div className=" flex justify-around ">
+ <div>
+Show Debris 
+ </div>
+ <div>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={DebrisStatus}
+            onChange={() => setDebrisStatus((prev) => !prev)}
+            className="sr-only peer"
+          />
+          <div className="w-7 h-3 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition-colors duration-200"></div>
+          <div className="absolute w-3 h-3 bg-white rounded-full shadow-md transform transition-transform duration-200 peer-checked:translate-x-5"></div>
+        </label>
       </div>
-    </>
+    </div>
   );
 }
 function SpeedComponent() {
