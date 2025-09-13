@@ -1,10 +1,10 @@
- @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Slab:wght@100..900&family=Saira+Stencil+One&display=swap");
- @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Slab:wght@100..900&family=Saira+Stencil+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Slab:wght@100..900&family=Saira+Stencil+One&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+  @import "tailwindcss";
 
 @theme {
   --color-bg-dark: #030712;
   --color-text-dark: #ffffff;
-   --font-roboto-slab :"Roboto slab",serif;
+  --font-roboto-slab: "Roboto slab", serif;
+  --font-work-Sans:"Work Sans",serif;
 }
-
-

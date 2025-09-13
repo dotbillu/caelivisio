@@ -1,7 +1,8 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { speedAtom, speedtype } from "./store";
+import { DebrisStatusAtom, speedAtom, speedtype } from "./store";
+import { Switch } from "@material-tailwind/react";
 
 export default function Sidebar() {
   return (
@@ -17,12 +18,15 @@ export default function Sidebar() {
 }
 
 function DebrisToggleComponent() {
+  const [DebrisStatus,SetDebrisStatus]=useAtom(DebrisStatusAtom);
   return (
     <>
-      <div className="flex flex-auto ">
+      <div className="flex  justify-center">
         <div className="font-roboto-slab">Show Debris</div>
 
-        <div></div>
+        <div>
+          <Switch onChange={SetDebrisStatus(!DebrisStatus)} ></Switch>
+        </div>
       </div>
     </>
   );
