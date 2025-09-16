@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-tailwind/react": "^2.1.10",
     "@shadcn/ui": "^0.0.4",
+    "axios": "^1.12.2",
     "cesium": "^1.133.1",
     "dotenv": "^17.2.2",
     "jotai": "^2.14.0",
@@ -19,6 +20,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "resium": "^1.19.0-beta.1",
+    "tle.js": "^5.0.1",
     "webpack": "^5.101.3"
   },
   "devDependencies": {
