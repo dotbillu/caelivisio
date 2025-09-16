@@ -2,6 +2,10 @@
 
 A cutting-edge 3D space visualization application built with Next.js and Cesium that provides real-time satellite tracking, debris monitoring, and space object management through an immersive web interface.
 
+## 🚀 Live Demo
+
+**[View Live Application](https://caelivisio-gold.vercel.app/)**
+
 ![Space Visualization](https://img.shields.io/badge/Space-Visualization-blue?style=for-the-badge&logo=spacex)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black?style=for-the-badge&logo=next.js)
 ![Cesium](https://img.shields.io/badge/Cesium-3D%20Globe-green?style=for-the-badge)
@@ -13,42 +17,57 @@ A cutting-edge 3D space visualization application built with Next.js and Cesium 
 - Real-time 3D visualization powered by Cesium
 - Smooth camera controls and navigation
 - High-fidelity Earth rendering with atmospheric effects
+- Dynamic space object rendering with color-coded visualization
 
-### 📊 **Satellite Tracking Dashboard**
-- Real-time satellite status monitoring
-- Risk assessment indicators (Normal/Risk)
-- Altitude and velocity tracking
-- Live data updates for ISS, debris, and satellites
+### 📡 **Real-Time Space Object Tracking**
+- **Satellites**: Yellow markers showing active satellite payloads from last 30 days
+- **Space Stations**: Green markers displaying international space stations
+- **Space Debris**: Red markers tracking Cosmos 2251 debris field
+- Live data fetched from CELESTRAK orbital element sets
 
 ### 🎛️ **Advanced Control Panel**
-- **Speed Control**: Adjustable simulation speed (1x to 5x)
-- **Layer Toggles**: 
-  - Space debris visibility
-  - Rocket body tracking
+- **Speed Control**: Adjustable simulation speed (1x to 5x multiplier)
+- **Layer Toggles**:
+  - Space debris visibility control
+  - Space station tracking toggle
   - Satellite payload monitoring
-- **Interactive UI**: Modern glassmorphism design with smooth animations
+- **Interactive UI**: Modern design with smooth animations
+
+### 📊 **Satellite Status Dashboard**
+- Real-time satellite information display
+- Organized data presentation
+- Responsive table layout
 
 ### 🎨 **Modern User Interface**
 - Dark theme optimized for space visualization
 - Responsive design with backdrop blur effects
-- Custom typography with space-themed fonts
+- Custom typography with Iceland font for space aesthetics
 - Smooth transitions and hover effects
 
 ## 🚀 Tech Stack
 
+### Core Technologies
 - **Frontend**: Next.js 15.5.3 with React 19
 - **3D Visualization**: Cesium 1.133.1 with Resium integration
-- **State Management**: Jotai for lightweight atomic state
+- **State Management**: Jotai for lightweight atomic state management
 - **Styling**: Tailwind CSS 4 with custom theming
-- **UI Components**: Material Tailwind React & Shadcn/ui
 - **Language**: TypeScript 5.0
+
+### Data & APIs
+- **Orbital Data**: TLE.js for satellite orbit calculations
+- **HTTP Client**: Axios for API requests
+- **Data Sources**: CELESTRAK NORAD element sets
+
+### Build & Development
 - **Build Tool**: Webpack 5
+- **Linting**: ESLint with Next.js configuration
+- **Package Manager**: npm/yarn
 
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js 18+ 
-- Yarn package manager
+- Node.js 18+
+- npm or yarn package manager
 - Cesium Ion access token
 
 ### 1. Clone the Repository
@@ -59,11 +78,13 @@ cd caelivisio
 
 ### 2. Install Dependencies
 ```bash
+npm install
+# or
 yarn install
 ```
 
 ### 3. Environment Configuration
-Create a `.env.local` file in the root directory:
+Create a `.env` file in the root directory:
 ```env
 NEXT_PUBLIC_CESIUM_ACCESS_TOKEN=your_cesium_ion_token_here
 ```
@@ -72,6 +93,8 @@ NEXT_PUBLIC_CESIUM_ACCESS_TOKEN=your_cesium_ion_token_here
 
 ### 4. Start Development Server
 ```bash
+npm run dev
+# or
 yarn dev
 ```
 
@@ -84,61 +107,102 @@ caelivisio/
 ├── src/
 │   └── app/
 │       ├── components/
-│       │   ├── earth.tsx          # 3D Cesium globe component
-│       │   ├── sidebar.tsx        # Control panel with toggles
-│       │   ├── right_table.tsx    # Satellite status dashboard
-│       │   ├── store.ts           # Jotai state management
+│       │   ├── earth.tsx              # Main 3D Cesium globe component
+│       │   ├── sidebar.tsx            # Control panel with speed & toggles
+│       │   ├── navbar.tsx             # Navigation component
+│       │   ├── right_table.tsx        # Satellite status dashboard
+│       │   ├── store.ts               # Jotai state atoms
 │       │   └── sidebaritems/
-│       │       └── toggle.tsx     # Toggle components
-│       ├── globals.css            # Global styles & theming
-│       ├── layout.tsx             # Root layout component
-│       └── page.tsx               # Main application page
+│       │       └── toggle.tsx         # Toggle switch components
+│       ├── libs/
+│       │   └── satellites.ts          # TLE data processing utilities
+│       ├── globals.css                # Global styles & Tailwind config
+│       ├── layout.tsx                 # Root layout component
+│       └── page.tsx                   # Main application page
 ├── public/
-│   └── cesium/                    # Cesium static assets
+│   ├── cesium/                        # Cesium static assets (auto-generated)
+│   └── *.svg                          # UI icons and graphics
 └── package.json
 ```
 
 ## 🎯 Key Components
 
 ### Earth Component (`earth.tsx`)
-- Integrates Cesium 3D globe with Resium
+- Integrates Cesium 3D globe with Resium React wrapper
 - Handles Cesium Ion token authentication
-- Provides full-screen 3D visualization
+- Fetches real-time satellite data from CELESTRAK APIs
+- Renders space objects with color-coded markers:
+  - 🟡 Satellites (9px, Yellow)
+  - 🟢 Space Stations (13px, Green)  
+  - 🔴 Debris (5px, Red)
 
 ### Sidebar (`sidebar.tsx`)
 - Speed control slider (1x-5x simulation speed)
-- Toggle switches for debris, rockets, and satellites
+- Toggle switches for different space object types
 - State management with Jotai atoms
+- Iceland font styling for space theme
 
-### Satellite Table (`right_table.tsx`)
-- Real-time satellite status display
-- Risk assessment with color-coded indicators
-- Responsive data table with hover effects
+### Toggle Components (`toggle.tsx`)
+- **DebrisToggleComponent**: Controls space debris visibility
+- **SpaceStationToggleComponent**: Manages space station display
+- **PayloadToggleButton**: Toggles satellite payload visibility
+- Consistent UI with custom toggle switches
+
+### Satellite Processing (`satellites.ts`)
+- Processes TLE (Two-Line Element) orbital data
+- Calculates satellite positions using observer coordinates
+- Converts orbital elements to Cesium-compatible coordinates
+- Returns structured satellite data for 3D rendering
 
 ## 🔧 Configuration
 
-### Speed Control
-The application supports 5 speed levels:
-- **1x**: Real-time speed
-- **2x**: 2x faster simulation
-- **3x**: 3x faster simulation
-- **4x**: 4x faster simulation
-- **5x**: 5x faster simulation
+### State Management (Jotai Atoms)
+```typescript
+// Speed control (1-5x multiplier)
+speedAtom: atom<speedtype>(1)
 
-### Layer Management
-Toggle visibility for different space objects:
-- **Debris**: Space debris and fragments
-- **Rockets**: Rocket body components
-- **Satellites**: Active satellite payloads
+// Visibility toggles
+debrisstatusatom: atom<boolean>(true)
+SpaceStationbodystatusatom: atom<boolean>(false)
+payloadstatusatom: atom<boolean>(false)
+
+// Satellite data storage
+satelliteObjectAtom: atom<SatelliteCesiumForm[]>([])
+SpaceStationObjectAtom: atom<SatelliteCesiumForm[]>([])
+```
+
+### Data Sources
+- **Satellites**: `https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=tle`
+- **Space Stations**: `https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle`
+- **Debris**: `https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=tle`
 
 ## 🌟 Features in Development
 
-- [ ] Real-time satellite data integration
+- [ ] Real-time orbital propagation
 - [ ] Collision prediction algorithms
 - [ ] Historical trajectory playback
-- [ ] Multi-language support
+- [ ] Satellite information panels
+- [ ] Advanced filtering and search
 - [ ] Mobile responsiveness improvements
-- [ ] Advanced filtering options
+- [ ] Performance optimizations for large datasets
+
+## 🚀 Deployment
+
+The application is deployed on Vercel with automatic deployments from the main branch.
+
+**Live URL**: [https://caelivisio-gold.vercel.app/](https://caelivisio-gold.vercel.app/)
+
+### Build Commands
+```bash
+# Production build
+npm run build
+
+# Start production server
+npm run start
+
+# Linting
+npm run lint
+```
 
 ## 🤝 Contributing
 
@@ -147,9 +211,10 @@ We welcome contributions! Please feel free to submit a Pull Request. For major c
 ### Development Guidelines
 1. Follow TypeScript best practices
 2. Use Tailwind CSS for styling
-3. Maintain component modularity
-4. Add proper error handling
+3. Maintain component modularity with Jotai state management
+4. Add proper error handling for API calls
 5. Include JSDoc comments for complex functions
+6. Test with different Cesium Ion tokens
 
 ## 📄 License
 
@@ -159,13 +224,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Cesium](https://cesium.com/) for the amazing 3D globe technology
 - [Resium](https://resium.darwineducation.com/) for React-Cesium integration
+- [CELESTRAK](https://celestrak.org/) for providing orbital element data
+- [TLE.js](https://github.com/davidcalhoun/tle.js) for satellite orbit calculations
 - [Next.js](https://nextjs.org/) for the robust React framework
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first styling
+- [Jotai](https://jotai.org/) for atomic state management
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 
 ## 📞 Support
 
-If you have any questions or need help with the project, please open an issue or contact us at [your-email@example.com](mailto:your-email@example.com).
+If you have any questions or need help with the project, please open an issue on GitHub.
 
 ---
 
 **Built with ❤️ for the space exploration community**
+
+*Visualizing the cosmos, one satellite at a time* 🛰️✨
