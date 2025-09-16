@@ -10,7 +10,6 @@
     "postinstall": "symlink-dir node_modules/cesium/Build/Cesium public/cesium"
   },
   "dependencies": {
-    "@material-tailwind/react": "^2.1.10",
     "@shadcn/ui": "^0.0.4",
     "axios": "^1.12.2",
     "cesium": "^1.133.1",
