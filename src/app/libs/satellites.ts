@@ -20,6 +20,7 @@ export default function processSatellites(rawTLE: string) {
  const satellitesData: SatelliteCesiumForm[] = tleList.map(tle => {
     const info = getSatelliteInfo(tle, null!, observerLat, observerLng, 0);
     return {
+
       lng: info.lng,
       lat: info.lat,
       elevation: info.elevation,

@@ -19,4 +19,5 @@ export interface SatelliteCesiumForm {
   velocity:number  
 };
 
-export const satelliteObjectAtoms = atom<SatelliteCesiumForm[]>([]);
+export const satelliteObjectAtom = atom<SatelliteCesiumForm[]>([]);
+export const SpaceStationObjectAtom=atom<SatelliteCesiumForm[]>([]);
