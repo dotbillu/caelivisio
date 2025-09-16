@@ -18,6 +18,5 @@ export interface SatelliteCesiumForm {
   height:number,   
   velocity:number  
 };
-export type SatelliteDate =SatelliteCesiumForm;
 
 export const satelliteObjectAtoms = atom<SatelliteCesiumForm[]>([]);
