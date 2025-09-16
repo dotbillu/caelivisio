@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Entity } from "resium";
 import SatelliteData from "../libs/satellites";
 import { useAtom } from "jotai";
-import { satelliteObjectAtom, SpaceStationObjectAtom } from "./store";
+import { debrisObjectAtom, debrisstatusatom, payloadstatusatom, satelliteObjectAtom, SpaceStationObjectAtom, spacestationstatusatom } from "./store";
 const Viewer = dynamic(() => import("resium").then((mod) => mod.Viewer), {
   ssr: false,
 });
@@ -14,6 +14,10 @@ export default function Earth() {
   const cesiumtoken = process.env.NEXT_PUBLIC_CESIUM_ACCESS_TOKEN;
   const [satelliteData, setSateliteData] = useAtom(satelliteObjectAtom);
   const [spaceStation, setSpaceStation] = useAtom(SpaceStationObjectAtom);
+  const [debrisData, setDebrisData] = useAtom(debrisObjectAtom)
+  const [spaceStationStatus] = useAtom(spacestationstatusatom)
+  const [payloadStatus] = useAtom(payloadstatusatom);
+  const [debrisStatus] = useAtom(debrisstatusatom)
 
   useEffect(() => {
     Ion.defaultAccessToken = cesiumtoken!;
@@ -29,28 +33,41 @@ export default function Earth() {
       res = await axios.get(SpaceStationURL, { responseType: "text" });
       const spaceStations = SatelliteData(res.data);
       setSpaceStation(spaceStations);
+      const debrisURL = "https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=tle"
+      res = await axios.get(debrisURL, {responseType: "text"})
+      const debris = SatelliteData(res.data)
+      setDebrisData(debris)
     }
 
     getSatelliteTLE();
-  }, [cesiumtoken, setSateliteData, setSpaceStation]);
+  }, [cesiumtoken, setSateliteData, setSpaceStation, setDebrisData]);
+
 
   return (
     <div>
       <Viewer full>
-        {satelliteData.map((sat, idx) => (
+        {payloadStatus && satelliteData.map((sat, idx) => (
           <Entity
             key={idx}
             name={`Satellite ${idx}`}
             position={Cartesian3.fromDegrees(sat.lng, sat.lat, sat.height)}
-            point={{ pixelSize: 5, color: Color.YELLOW }}
+            point={{ pixelSize: 9, color: Color.YELLOW }}
           />
         ))}
-        {spaceStation.map((sat, idx) => (
+        {spaceStationStatus && spaceStation.map((sat, idx) => (
           <Entity
             key={idx}
-            name={`Satellite ${idx}`}
+            name={`SpaceStation ${idx}`}
             position={Cartesian3.fromDegrees(sat.lng, sat.lat, sat.height)}
-            point={{ pixelSize: 10, color: Color.GREEN }}
+            point={{ pixelSize: 13, color: Color.GREEN }}
+          ></Entity>
+        ))}
+        {debrisStatus && debrisData.map((sat, idx) => (
+          <Entity
+            key={idx}
+            name={`Debris ${idx}`}
+            position={Cartesian3.fromDegrees(sat.lng, sat.lat, sat.height)}
+            point={{ pixelSize: 5, color: Color.RED }}
           ></Entity>
         ))}
       </Viewer>
