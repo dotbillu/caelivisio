@@ -2,9 +2,9 @@ import React from 'react';
 export default function Table() {
 
     const satellites = [
-        { id: 1, name: "CYGNUS NG-23", risk: "Normal", altitude: "420 km", velocity: "7.6 km/s" },
-        { id: 2, name: "COSMOS 2251 DEB", risk: "Risk", altitude: "400 km", velocity: "7.7 km/s" },
-        { id: 3, name: "STARLINK-35012", risk: "Normal", altitude: "650 km", velocity: "7.5 km/s" },
+        { id: 1, name: "CYGNUS NG-23", risk: "Low", altitude: "420 km", velocity: "7.6 km/s" },
+        { id: 2, name: "COSMOS 2251 DEB", risk: "High", altitude: "400 km", velocity: "7.7 km/s" },
+        { id: 3, name: "STARLINK-35012", risk: "Low", altitude: "650 km", velocity: "7.5 km/s" },
     ];
 
     return (
@@ -24,7 +24,7 @@ export default function Table() {
                         <tr key={sat.id} className="border-b border-gray-800 hover:bg-gray-800/50">
                             <td className="p-2">{sat.name}</td>
                             <td
-                                className={`p-2 ${sat.risk.includes("Risk") ? "text-red-400 font-bold" : "text-green-400"
+                                className={`p-2 ${sat.risk.includes("High") ? "text-red-400 font-bold" : "text-green-400"
                                     }`}
                             >
                                 {sat.risk}
