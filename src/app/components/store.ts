@@ -9,7 +9,10 @@ export const debrisstatusatom = atom<boolean>(true);
 export const payloadstatusatom = atom<boolean>(false);
 export const spacestationstatusatom = atom<boolean>(false);
   
+export type thing = "satelliteType" | "spaceStationType" | "debrisType";  
 export interface SatelliteCesiumForm {
+  Type:thing;
+  name:string,
   lng: number,
   lat: number,      
   elevation: number,  
@@ -19,6 +22,6 @@ export interface SatelliteCesiumForm {
   velocity:number  
 };
 
-export const satelliteObjectAtom = atom<SatelliteCesiumForm[]>([]);
-export const SpaceStationObjectAtom=atom<SatelliteCesiumForm[]>([]);
-export const debrisObjectAtom=atom<SatelliteCesiumForm[]>([]);
+export const AllObjectAtom = atom<SatelliteCesiumForm[]>([]);
+
+
