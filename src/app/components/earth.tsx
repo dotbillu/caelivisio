@@ -27,17 +27,18 @@ export default function Earth() {
 
     async function getSatelliteTLE() {
       const SatelliteURL =
-        "https://celestrak.org/NORAD/elements/gp.php?GROUP=last-30-days&FORMAT=tle";
+        "/assets/satellites.txt";
+      
       const res1 = await axios.get(SatelliteURL, { responseType: "text" });
       const Satellites = SatelliteData(res1.data, "satelliteType");
 
       const SpaceStationURL =
-        "https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle";
+        "/assets/spaceStations.txt";
       const res2 = await axios.get(SpaceStationURL, { responseType: "text" });
       const spaceStations = SatelliteData(res2.data, "spaceStationType");
 
       const debrisURL =
-        "https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=tle";
+         "/assets/debris.txt";
       const res3 = await axios.get(debrisURL, { responseType: "text" });
       const debris = SatelliteData(res3.data, "debrisType");
 
@@ -49,9 +50,9 @@ export default function Earth() {
   
   function HandlePoints(sat: SatelliteCesiumForm){
     //  point={{ pixelSize: 9, color: Color.YELLOW }}
-    if(sat.Type === "debrisType") return { pixelSize: 4, color: Color.RED}
-    if(sat.Type === "satelliteType") return { pixelSize: 4, color: Color.YELLOW}
-    if(sat.Type === "spaceStationType") return { pixelSize: 4, color: Color.PINK}
+    if(sat.Type === "debrisType") return { pixelSize: 5, color: Color.RED}
+    if(sat.Type === "satelliteType") return { pixelSize: 10, color: Color.YELLOW}
+    if(sat.Type === "spaceStationType") return { pixelSize: 20, color: Color.GREEN}
 
   }
 
