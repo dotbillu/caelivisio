@@ -4,7 +4,7 @@ export type speedtype = 1 | 2 | 3 | 4 | 5;
 
 export const speedAtom = atom<speedtype>(1);
 
-export const debrisstatusatom = atom<boolean>(true);
+export const debrisstatusatom = atom<boolean>(false);
 
 export const payloadstatusatom = atom<boolean>(false);
 export const spacestationstatusatom = atom<boolean>(false);

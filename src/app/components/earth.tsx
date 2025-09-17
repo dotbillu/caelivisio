@@ -10,6 +10,7 @@ import {
   AllObjectAtom,
   debrisstatusatom,
   payloadstatusatom,
+  SatelliteCesiumForm,
   spacestationstatusatom,
 } from "./store";
 const Viewer = dynamic(() => import("resium").then((mod) => mod.Viewer), {
@@ -44,19 +45,33 @@ export default function Earth() {
     }
 
     getSatelliteTLE();
-  }, [cesiumtoken,AllObjectAtom,setAllObjects]);
+  }, [cesiumtoken,setAllObjects]);
+  
+  function HandlePoints(sat: SatelliteCesiumForm){
+    //  point={{ pixelSize: 9, color: Color.YELLOW }}
+    if(sat.Type === "debrisType") return { pixelSize: 4, color: Color.RED}
+    if(sat.Type === "satelliteType") return { pixelSize: 4, color: Color.YELLOW}
+    if(sat.Type === "spaceStationType") return { pixelSize: 4, color: Color.PINK}
+
+  }
+
   return (
-    <div>
+     <div>
       <Viewer full>
-        {payloadStatus &&
-          allObjects.map((sat, idx) => (
+        {allObjects.map((sat, idx) => {
+          if (sat.Type === "debrisType" && !debrisStatus) return null;
+          if (sat.Type === "satelliteType" && !payloadStatus) return null;
+          if (sat.Type === "spaceStationType" && !spaceStationStatus) return null;
+
+          return (
             <Entity
               key={idx}
               name={sat.name}
               position={Cartesian3.fromDegrees(sat.lng, sat.lat, sat.height)}
-              point={{ pixelSize: 9, color: Color.YELLOW }}
+              point={HandlePoints(sat)}
             />
-          ))}
+          );
+        })}
       </Viewer>
     </div>
   );
