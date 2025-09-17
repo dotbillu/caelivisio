@@ -18,7 +18,7 @@ export default function Home() {
         <Sidebar />
       </div>
 
-      {/* <Table /> */}
+      <Table />
 
     </div>
   );

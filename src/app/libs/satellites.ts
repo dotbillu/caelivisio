@@ -1,4 +1,4 @@
-import { getSatelliteInfo } from "tle.js"; // Removed 'TLE' import
+import { getSatelliteInfo } from "tle.js";
 import { SatelliteCesiumForm, thing } from "../components/store";
 
 interface TleWithName {
@@ -6,7 +6,10 @@ interface TleWithName {
   tle: [string, string];
 }
 
-export default function processSatellites(rawTLE: string,thing:thing): SatelliteCesiumForm[] {
+export default function processSatellites(
+  rawTLE: string,
+  thing: thing,
+): SatelliteCesiumForm[] {
   const observerLat = 37.709203;
   const observerLng = -97.427754;
 
@@ -27,9 +30,15 @@ export default function processSatellites(rawTLE: string,thing:thing): Satellite
   }
 
   const satellitesData: SatelliteCesiumForm[] = tleList.map((tleObj) => {
-    const info = getSatelliteInfo(tleObj.tle, null!, observerLat, observerLng, 0);
+    const info = getSatelliteInfo(
+      tleObj.tle,
+      null!,
+      observerLat,
+      observerLng,
+      0,
+    );
     return {
-      Type:thing,
+      Type: thing,
       name: tleObj.name,
       lng: info.lng,
       lat: info.lat,
@@ -38,8 +47,8 @@ export default function processSatellites(rawTLE: string,thing:thing): Satellite
       range: info.range,
       height: info.height,
       velocity: info.velocity,
+      collision: "Low"
     };
   });
   return satellitesData;
 }
-

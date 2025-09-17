@@ -2,14 +2,14 @@ import React from 'react';
 export default function Table() {
 
     const satellites = [
-        { id: 1, name: "ISS", risk: "Normal", altitude: "420 km", velocity: "7.6 km/s" },
-        { id: 2, name: "Debris-1", risk: "Risk", altitude: "400 km", velocity: "7.7 km/s" },
-        { id: 3, name: "Cartosat", risk: "Normal", altitude: "650 km", velocity: "7.5 km/s" },
+        { id: 1, name: "CYGNUS NG-23", risk: "Normal", altitude: "420 km", velocity: "7.6 km/s" },
+        { id: 2, name: "COSMOS 2251 DEB", risk: "Risk", altitude: "400 km", velocity: "7.7 km/s" },
+        { id: 3, name: "STARLINK-35012", risk: "Normal", altitude: "650 km", velocity: "7.5 km/s" },
     ];
 
     return (
-        <div className="absolute top-4 right-4 w-96 bg-black/80 mt-10  text-white rounded-2xl shadow shadow-gray-50 p-4 backdrop-blur-md">
-            <h2 className="text-lg font-bold mb-3">Satellite Status</h2>
+        <div className="absolute top-4 right-4 w-96 bg-black/80 mt-30  text-white rounded-2xl shadow shadow-gray-50 p-1 backdrop-blur-md">
+            <h2 className="text-[30px] pl-1 font-bold font-Iceland mb-3">Status</h2>
             <table className="w-full border-collapse text-sm">
                 <thead>
                     <tr className="text-gray-300 border-b border-gray-700">
