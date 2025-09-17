@@ -4,7 +4,7 @@ A cutting-edge 3D space visualization application built with Next.js and Cesium 
 
 ## 🚀 Live Demo
 
-**[View Live Application](https://caelivisio-gold.vercel.app/)**
+**[View Live Application](https://caelivisio-pi.vercel.app/)**
 
 ![Space Visualization](https://img.shields.io/badge/Space-Visualization-blue?style=for-the-badge&logo=spacex)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black?style=for-the-badge&logo=next.js)
