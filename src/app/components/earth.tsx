@@ -71,9 +71,9 @@ export default function Earth() {
   function HandlePoints(sat: SatelliteCesiumForm) {
     if (sat.Type === "debrisType") return { pixelSize: 5, color: Color.RED };
     if (sat.Type === "satelliteType")
-      return { pixelSize: 10, color: Color.YELLOW };
+      return { pixelSize: 9, color: Color.YELLOW };
     if (sat.Type === "spaceStationType")
-      return { pixelSize: 20, color: Color.GREEN };
+      return { pixelSize: 15, color: Color.GREEN };
   }
 
   return (
