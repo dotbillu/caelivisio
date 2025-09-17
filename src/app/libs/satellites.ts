@@ -42,3 +42,4 @@ export default function processSatellites(rawTLE: string,thing:thing): Satellite
   });
   return satellitesData;
 }
+

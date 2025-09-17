@@ -49,7 +49,7 @@ export default function Earth() {
     <div>
       <Viewer full>
         {payloadStatus &&
-          satelliteData.map((sat, idx) => (
+          allObjects.map((sat, idx) => (
             <Entity
               key={idx}
               name={sat.name}
@@ -61,3 +61,4 @@ export default function Earth() {
     </div>
   );
 }
+
