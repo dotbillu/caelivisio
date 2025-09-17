@@ -9,7 +9,7 @@ export default function Table() {
     ];
 
     return (
-        <div className="absolute top-4 left-4 w-96 bg-black/80 mt-75  text-white rounded-2xl shadow shadow-gray-50 p-1 backdrop-blur-md">
+        <div className="absolute top-4 left-5 w-96 bg-black/80 mt-75  text-white rounded-2xl shadow shadow-gray-50 p-1 backdrop-blur-md">
             <h2 className="text-[30px] pl-1 font-bold font-Iceland mb-3">Status</h2>
             <table className="w-full border-collapse text-sm">
                 <thead>
