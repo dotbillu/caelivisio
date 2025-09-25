@@ -2,12 +2,13 @@ import React from "react";
 import { DoubleSide } from "three";
 
 export default function OrbitLines() {
-  const pi=Math.PI
   return (
     <>
-      <mesh rotation={[-pi/2,-pi/ 20,0]}>
-        <ringGeometry args={[300, 300.8, 64]} />
+      <mesh scale={[1, 1.2, 1]} position={[0,0,0]}>
+        <torusGeometry args={[100,0.009,30,100]} />
+
         <meshStandardMaterial color="white" side={DoubleSide} />
+    
       </mesh>
     </>
   );
