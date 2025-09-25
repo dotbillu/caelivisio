@@ -68,7 +68,7 @@ const RandomStarsExport: React.FC<StarLayerProps> = (props) => {
   return (
     <group>
       <StarLayer
-        count={5000}
+        count={8000}
         radius={3000}
         size={0.001}
         color="#1A5C78"

@@ -36,12 +36,7 @@ export default function Earth() {
   const position: [number, number, number] = [100, 0, 0];
   const handleClick = () => {
     const axis = new THREE.Vector3(100, 0, 0);
-    if (orbitObject.equals(axis)) {
-      return
-     
-    }
-
-    setOrbitObject(axis);
+       setOrbitObject(axis);
     setShowSelector(true);
 
     setTimeout(() => setShowSelector(false), 1000);

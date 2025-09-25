@@ -30,9 +30,7 @@ export default function SunComponent() {
   const [showSelector, setShowSelector] = useState(false);
   const handleClick = () => {
     const axis = new THREE.Vector3(0, 0, 0);
-    if (orbitObject.equals(axis)) {
-      return;
-    }
+   
     setOrbitObject(axis);
     setShowSelector(true);
 
