@@ -11,28 +11,28 @@ export default function Orbit() {
   const groupRef = useRef<THREE.Group>(null!);
   const starsRef = useRef<THREE.Group>(null!); 
 
-  // useFrame(() => {
-  //   if (groupRef.current) {
-  //     groupRef.current.rotation.z += 0.00001;
-  //   }
-  //
-  //   if (starsRef.current) {
-  //     starsRef.current.rotation.z += 0.0001; 
-  //   }
-  // });
+  useFrame(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.z += 0.00001;
+    }
+
+    if (starsRef.current) {
+      starsRef.current.rotation.z += 0.0001; 
+    }
+  });
 
   return (
     <group>
       <group ref={groupRef}>
-        {/* <SunComponent /> */}
+        <SunComponent />
         <Earth />
         <OrbitLines />
         <Asteroids />
       </group>
 
-      {/* <group ref={starsRef}> */}
-      {/*   <RandomStarsExport /> */}
-      {/* </group> */}
+      <group ref={starsRef}>
+        <RandomStarsExport />
+      </group>
     </group>
   );
 }

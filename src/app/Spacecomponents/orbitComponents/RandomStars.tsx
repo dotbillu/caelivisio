@@ -15,8 +15,8 @@ interface StarLayerProps {
 }
 
 const StarLayer: React.FC<StarLayerProps> = ({
-  count = 5000,
-  radius = 3000,
+  count = 50000,
+  radius = 10000,
   minRadius = 0,
   size = 0.001,
   color = "#1A5C78",

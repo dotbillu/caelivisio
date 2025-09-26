@@ -5,9 +5,9 @@ export default function OrbitLines() {
   return (
     <>
       <mesh scale={[1, 1.2, 1]} position={[0,0,0]}>
-        <torusGeometry args={[149,0.009,30,100]} />
+        <torusGeometry args={[149,0.02,1000,1100]} />
 
-        <meshStandardMaterial color="white" side={DoubleSide} />
+        <meshStandardMaterial color="pink" side={DoubleSide} />
     
       </mesh>
     </>

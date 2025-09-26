@@ -1,7 +1,12 @@
 // components/Asteroids.tsx
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { asteroidsAtom, AllPlotsData, PlotAtom } from "../store";
+import {
+  asteroidsAtom,
+  AllPlotsData,
+  PlotAtom,
+  EphemerisEntry,
+} from "../store";
 import axios from "axios";
 import * as THREE from "three";
 
@@ -17,7 +22,6 @@ export default function Asteroids() {
         const res = await fetch("/assets/AsteroidData.json");
         const data = await res.json();
         setAsteroids(data);
-
         const allIds = Object.values(data.near_earth_objects).flatMap(
           (neos: any) => neos.map((neo: any) => neo.id),
         );
@@ -26,12 +30,11 @@ export default function Asteroids() {
         console.error("Failed to load AsteroidData.json:", err);
       }
     };
-
     fetchAsteroidList();
   }, [setAsteroids]);
+
   useEffect(() => {
     if (asteroidIds.length === 0) return;
-
     const getObjectPlots = async () => {
       try {
         const plotPromises = asteroidIds.map((id) =>
@@ -39,46 +42,67 @@ export default function Asteroids() {
             .get(`/api/horizons?id=${id}`)
             .then((resp) => ({ id, data: resp.data })),
         );
-
         const results = await Promise.all(plotPromises);
-
         const newPlotData: AllPlotsData = {};
         results.forEach((result) => {
-          if (result.data) {
-            newPlotData[result.id] = result.data;
+          const ephemerisForId = result.data?.[result.id];
+          if (ephemerisForId) {
+            newPlotData[result.id] = ephemerisForId;
           }
         });
-
         setPlotData(newPlotData);
-        // console.log("All plot data fetched and set:", newPlotData);
       } catch (err) {
         console.error("Failed to fetch one or more plots:", err);
       }
     };
-
     getObjectPlots();
   }, [asteroidIds, setPlotData]);
 
   return (
     <>
-      {Object.entries(plotData).map(([asteroidId, ephemeris]) => (
-        <group key={asteroidId}>
-          {Object.entries(ephemeris).map((e) => {
-            console.log(e);
-            return (
-              <mesh
-                key={`${asteroidId}-`}
-                position={
-                  e.pos.map((v) => v / 1e7) as [number, number, number]
-                }
-              >
-                <sphereGeometry args={[0.5, 16, 16]} />
-                <meshStandardMaterial color="red" />
-              </mesh>
-            );
-          })}
-        </group>
-      ))}
+      {Object.entries(plotData).map(([asteroidId, ephemeris]) => {
+        const ephemerisData = ephemeris as { [date: string]: EphemerisEntry };
+
+        const sortedEntries = Object.entries(ephemerisData).sort(
+          ([dateA], [dateB]) =>
+            new Date(dateA).getTime() - new Date(dateB).getTime(),
+        );
+
+
+        if (sortedEntries.length < 2) {
+          return null;
+        }
+
+
+        const points = sortedEntries.map(([, entry]) => {
+          const scaledPos = entry.pos.map((v) => v / 1e5);
+          return new THREE.Vector3(...scaledPos);
+        });
+
+
+        const curve = new THREE.CatmullRomCurve3(points);
+
+
+        const lastPosition = points[points.length - 1];
+
+        return (
+          <group key={asteroidId}>
+
+            <mesh>
+              <tubeGeometry args={[curve, 64, 0.02, 8, false]} />
+              <meshBasicMaterial color="white" />
+            </mesh>
+
+
+            <mesh position={lastPosition}
+            onClick={()=>alert(`${asteroidId}`)}>
+              <sphereGeometry args={[0.5, 32, 32]} />
+              <meshStandardMaterial color="red" />
+
+            </mesh>
+          </group>
+        );
+      })}
     </>
   );
 }

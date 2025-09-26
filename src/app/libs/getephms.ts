@@ -8,7 +8,8 @@ export default async function fetchHorizons(
   // outer key = id, inner = date
   const start = new Date();
   const stop = new Date();
-  stop.setDate(start.getDate() + 7);
+  stop.setDate(start.getDate() + 40);
+  start.setDate(start.getDate()-200)
 
   const yyyyStart = start.getFullYear();
   const mmStart = String(start.getMonth() + 1).padStart(2, "0");
