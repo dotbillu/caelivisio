@@ -32,10 +32,10 @@ export default function Earth() {
     oceanRef.current.rotation.y += rotSpeed;
   });
   const [showSelector, setShowSelector] = useState(false);
-
-  const position: [number, number, number] = [100, 0, 0];
-  const handleClick = () => {
-    const axis = new THREE.Vector3(100, 0, 0);
+ 
+  const position: [number, number, number] = [149, 0, 0];
+  const handleClick = () => { 
+    const axis = new THREE.Vector3(149, 0, 0);
        setOrbitObject(axis);
     setShowSelector(true);
 
