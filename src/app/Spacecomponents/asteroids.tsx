@@ -1,12 +1,7 @@
 // components/Asteroids.tsx
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import {
-  asteroidsAtom,
-  AllPlotsData,
-  PlotAtom,
-  EphemerisEntry,
-} from "../store";
+import { asteroidsAtom, PlotAtom, EphemerisEntry, EphermisWid } from "../store";
 import axios from "axios";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
@@ -36,30 +31,35 @@ export default function Asteroids() {
 
   useEffect(() => {
     if (asteroidIds.length === 0) return;
+
     const getObjectPlots = async () => {
-      try {
-        const plotPromises = asteroidIds.map((id) =>
-          axios
-            .get(`/api/horizons?id=${id}`)
-            .then((resp) => ({ id, data: resp.data })),
-        );
-        const results = await Promise.all(plotPromises);
-        const newPlotData: AllPlotsData = {};
-        results.forEach((result) => {
-          const ephemerisForId = result.data?.[result.id];
+      console.log(`Fetching plots for ${asteroidIds.length} asteroids...`);
+      for (const id of asteroidIds) {
+        try {
+          const resp = await axios.get(`/api/horizons?id=${id}`);
+          const ephemerisForId = resp.data?.[id];
+
           if (ephemerisForId) {
-            newPlotData[result.id] = ephemerisForId;
+            setPlotData((currentData) => ({
+              ...currentData,
+              [id]: ephemerisForId,
+            }));
           }
-        });
-        setPlotData(newPlotData);
-        console.log(newPlotData)
-      } catch (err) {
-        console.error("Failed to fetch one or more plots:", err);
+        } catch (error) {
+          console.error(`Failed to fetch plot for asteroid ID ${id}:`, error);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 200));
       }
+      console.log("Finished fetching all asteroid plots.");
     };
+
     getObjectPlots();
-  }, [asteroidIds, setPlotData]);
-  const [AsteroidTexture] = useLoader(THREE.TextureLoader, ["/assets/asteroid.jpg"]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asteroidIds]);
+
+  const [AsteroidTexture] = useLoader(THREE.TextureLoader, [
+    "/assets/asteroid.jpg",
+  ]);
 
   return (
     <>
@@ -71,38 +71,34 @@ export default function Asteroids() {
             new Date(dateA).getTime() - new Date(dateB).getTime(),
         );
 
-
         if (sortedEntries.length < 2) {
           return null;
         }
 
-
-       const points = sortedEntries.map(([, entry]) => {
-  const scaledPos = entry.pos.map((v, i) => (i === 0 ? v / 1e6 + 149 : v / 1e6));
-  return new THREE.Vector3(...scaledPos);
-});
-
-
+        const points = sortedEntries.map(([, entry]) => {
+          const scaledPos = entry.pos.map((v, i) =>
+            i === 0 ? v / 1e6 + 149 : v / 1e6,
+          );
+          return new THREE.Vector3(...scaledPos);
+        });
 
         const curve = new THREE.CatmullRomCurve3(points);
-
 
         const lastPosition = points[points.length - 1];
 
         return (
           <group key={asteroidId}>
-
             <mesh>
               <tubeGeometry args={[curve, 64, 0.02, 8, false]} />
               <meshBasicMaterial color="gray" />
             </mesh>
 
-
-            <mesh position={lastPosition}
-            onClick={()=>alert(`${asteroidId}`)}>
+            <mesh
+              position={lastPosition}
+              onClick={() => alert(`${asteroidId}`)}
+            >
               <sphereGeometry args={[0.5, 32, 32]} />
               <meshStandardMaterial map={AsteroidTexture} />
-
             </mesh>
           </group>
         );

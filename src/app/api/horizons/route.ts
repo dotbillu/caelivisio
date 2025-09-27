@@ -1,10 +1,8 @@
-// Correct code for app/api/horizons/route.ts
 
 import { NextResponse } from "next/server";
-import fetchHorizons from "@/app/libs/getephms"; // Adjust the import path if needed
+import fetchHorizons from "@/app/libs/getephms"; 
 
 export async function GET(request: Request) {
-  // In the App Router, we get search params from the request URL
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 

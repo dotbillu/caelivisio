@@ -5,7 +5,6 @@ import axios from "axios";
 export default async function fetchHorizons(
   id: string,
 ): Promise<EphermisWid> {
-  // outer key = id, inner = date
   const start = new Date();
   const stop = new Date();
   stop.setDate(start.getDate() + 20);
