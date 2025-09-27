@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { ZoomValue, ZoomValueAtom } from "../store";
 import { useEffect, useState } from "react";
+
 export default function ZoomSlider() {
   const [zoom, setZoom] = useState<ZoomValue>(2);
   const [, setValue] = useAtom(ZoomValueAtom);
@@ -8,12 +9,12 @@ export default function ZoomSlider() {
   useEffect(() => {
     setValue(zoom);
   }, [zoom, setValue]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = Number(e.target.value);
-    // Ensure value is valid ZoomValue
-    if (val >= 3 && val <= 900) {
-      setZoom(val as ZoomValue);
-    }
+    const sliderValue = Number(e.target.value);
+    // Invert the slider value to calculate the zoom level
+    const invertedZoom = 100 - sliderValue;
+    setZoom(invertedZoom as ZoomValue);
   };
 
   return (
@@ -21,15 +22,16 @@ export default function ZoomSlider() {
       <div>
         <input
           type="range"
-          min={3}
-          max={900}
+          min={0}
+          max={100}
           step={1}
-          value={zoom}
+          value={100 - zoom}
           onChange={handleChange}
-          className="w-[90%] h-2 ml-2  appearance-auto cursor-pointer dark:bg-gray-700 accent-[#0EA513] active-border onhover"
+          className="w-[90%] h-2 ml-2 appearance-auto cursor-pointer dark:bg-gray-700 accent-[#0EA513] active-border onhover"
         />
       </div>
-      <div className=""> {zoom/10}</div>
+      <div>{100-zoom}</div>
     </div>
   );
 }
+

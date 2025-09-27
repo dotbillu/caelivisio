@@ -27,7 +27,7 @@ export default function Orbit() {
         <SunComponent />
         <Earth />
         <OrbitLines />
-        {/* <Asteroids /> */}
+        <Asteroids />
       </group>
 
       <group ref={starsRef}>

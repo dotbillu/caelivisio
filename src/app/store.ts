@@ -1,8 +1,6 @@
 import { atom } from "jotai";
-import * as THREE from 'three';
+import * as THREE from "three";
 
-export type zoomObject = "EARTH" | "SUN" | "ASTEROID";
-export const ZoomObjectAtom = atom<zoomObject>("EARTH");
 type Range<
   Start extends number,
   End extends number,
@@ -11,14 +9,10 @@ type Range<
   ? Acc[number]
   : Range<Start, End, [Acc["length"], ...Acc]>;
 
-export type ZoomValue = Range<2, 900>;
-export const ZoomValueAtom = atom<ZoomValue>(3);
+export type ZoomValue = Range<2, 200>;
+export const ZoomValueAtom = atom<ZoomValue>(0);
 
-
-export const orbitTargetAtom = atom(new THREE.Vector3(0, 0, 0)); 
-
-//nasa objects
-
+export const orbitTargetAtom = atom(new THREE.Vector3(0, 0, 0));
 
 export interface Neo {
   id: string;
@@ -52,9 +46,9 @@ export interface NeoFeed {
     self: string;
   };
   element_count: number;
-  near_earth_objects: Record<string, Neo[]>; 
+  near_earth_objects: Record<string, Neo[]>;
 }
-
+export const currentObjectId = atom<string>("");
 export const asteroidsAtom = atom<NeoFeed | null>(null);
 
 export interface EphemerisEntry {
@@ -65,7 +59,7 @@ export interface EphemerisEntry {
 export interface EphemerisData {
   [date: string]: EphemerisEntry;
 }
-export interface EphermisWid{
-  [id:string]:EphemerisData 
+export interface EphermisWid {
+  [id: string]: EphemerisData;
 }
-export const PlotAtom=atom<EphermisWid>({});
+export const PlotAtom = atom<EphermisWid>({});
