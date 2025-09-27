@@ -10,7 +10,7 @@ export default function Earth() {
   const earthRef = useRef<THREE.Mesh>(null!);
   const cloudsRef = useRef<THREE.Mesh>(null!);
   const oceanRef = useRef<THREE.Mesh>(null!);
-  const [orbitObject, setOrbitObject] = useAtom(orbitTargetAtom);
+  const [, setOrbitObject] = useAtom(orbitTargetAtom);
   const [earthTexture, cloudsTexture, oceanTexture] = useLoader(
     THREE.TextureLoader,
     ["/assets/Albedo.jpg", "/assets/Clouds.png", "/assets/Ocean.png"],

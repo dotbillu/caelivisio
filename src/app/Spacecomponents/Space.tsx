@@ -43,7 +43,7 @@ function Controls() {
       maxDistance={300}
       rotateSpeed={0.4}
       enableZoom={true}
-      zoomSpeed={3}
+      zoomSpeed={1}
       onStart={() => {
         isInteractingRef.current = true;
       }}

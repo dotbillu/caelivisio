@@ -7,8 +7,8 @@ export default async function fetchHorizons(
 ): Promise<EphermisWid> {
   const start = new Date();
   const stop = new Date();
-  stop.setDate(start.getDate() + 20);
-  start.setDate(start.getDate()-20)
+  stop.setDate(start.getDate() + 10);
+  start.setDate(start.getDate())
 
   const yyyyStart = start.getFullYear();
   const mmStart = String(start.getMonth() + 1).padStart(2, "0");

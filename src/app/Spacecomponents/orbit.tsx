@@ -4,7 +4,7 @@ import Earth from "./orbitComponents/earth";
 import OrbitLines from "./orbitComponents/orbitlines";
 import SunComponent from "./orbitComponents/Sun";
 import * as THREE from "three";
-import Asteroids from "./asteroids";
+import Asteroids from "./AsteroidComponents/asteroids";
 import RandomStarsExport from "./orbitComponents/RandomStars";
 
 export default function Orbit() {
@@ -27,7 +27,7 @@ export default function Orbit() {
         <SunComponent />
         <Earth />
         <OrbitLines />
-        <Asteroids />
+        {/* <Asteroids /> */}
       </group>
 
       <group ref={starsRef}>
