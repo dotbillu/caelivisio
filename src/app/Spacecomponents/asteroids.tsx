@@ -9,6 +9,7 @@ import {
 } from "../store";
 import axios from "axios";
 import * as THREE from "three";
+import { useLoader } from "@react-three/fiber";
 
 export default function Asteroids() {
   const [asteroids, setAsteroids] = useAtom(asteroidsAtom);
@@ -51,12 +52,14 @@ export default function Asteroids() {
           }
         });
         setPlotData(newPlotData);
+        console.log(newPlotData)
       } catch (err) {
         console.error("Failed to fetch one or more plots:", err);
       }
     };
     getObjectPlots();
   }, [asteroidIds, setPlotData]);
+  const [AsteroidTexture] = useLoader(THREE.TextureLoader, ["/assets/asteroid.jpg"]);
 
   return (
     <>
@@ -74,10 +77,11 @@ export default function Asteroids() {
         }
 
 
-        const points = sortedEntries.map(([, entry]) => {
-          const scaledPos = entry.pos.map((v) => v / 1e5);
-          return new THREE.Vector3(...scaledPos);
-        });
+       const points = sortedEntries.map(([, entry]) => {
+  const scaledPos = entry.pos.map((v, i) => (i === 0 ? v / 1e6 + 149 : v / 1e6));
+  return new THREE.Vector3(...scaledPos);
+});
+
 
 
         const curve = new THREE.CatmullRomCurve3(points);
@@ -90,14 +94,14 @@ export default function Asteroids() {
 
             <mesh>
               <tubeGeometry args={[curve, 64, 0.02, 8, false]} />
-              <meshBasicMaterial color="white" />
+              <meshBasicMaterial color="gray" />
             </mesh>
 
 
             <mesh position={lastPosition}
             onClick={()=>alert(`${asteroidId}`)}>
               <sphereGeometry args={[0.5, 32, 32]} />
-              <meshStandardMaterial color="red" />
+              <meshStandardMaterial map={AsteroidTexture} />
 
             </mesh>
           </group>
