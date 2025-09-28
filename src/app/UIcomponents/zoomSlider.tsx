@@ -12,13 +12,12 @@ export default function ZoomSlider() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sliderValue = Number(e.target.value);
-    // Invert the slider value to calculate the zoom level
     const invertedZoom = 100 - sliderValue;
     setZoom(invertedZoom as ZoomValue);
   };
 
   return (
-    <div className="z-top bg-gray-200 flex justify-between w-fit">
+    <div className="z-top  flex justify-between w-fit">
       <div>
         <input
           type="range"
@@ -27,7 +26,7 @@ export default function ZoomSlider() {
           step={1}
           value={100 - zoom}
           onChange={handleChange}
-          className="w-[90%] h-2 ml-2 appearance-auto cursor-pointer dark:bg-gray-700 accent-[#0EA513] active-border onhover"
+          className="w-[90%] h-2 ml-2 appearance-auto cursor-pointer dark:bg-gray-700 accent-gray-50 active-border onhover"
         />
       </div>
       <div>{100-zoom}</div>

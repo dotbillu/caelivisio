@@ -5,21 +5,35 @@ import {
   EphemerisEntry,
   Neo,
   orbitTargetAtom,
+  showInfoBarAtom,
 } from "@/app/store";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useAsteroids } from "./useAsteroids";
 import { useAtom, useAtomValue } from "jotai";
-import { useRef, useState } from "react";
-import { useThree } from "@react-three/fiber";
+import { useRef } from "react";
 
 export default function Asteroids() {
   const { plotData } = useAsteroids();
   const asteroidFeed = useAtomValue(asteroidsAtom);
-
+  const [, setInfoBar] = useAtom(showInfoBarAtom);
   const [AsteroidTexture] = useLoader(THREE.TextureLoader, [
     "/assets/asteroid.jpg",
   ]);
+
+  const [, setOrbitObject] = useAtom(orbitTargetAtom);
+  const [, setCurrentObjectId] = useAtom(currentObjectId);
+  const currentId = useAtomValue(currentObjectId);
+
+  const shapeMapRef = useRef<{ [id: string]: number }>({});
+  const squareref = useRef<THREE.LineSegments>(null!);
+  const { camera } = useThree();
+
+  useFrame(() => {
+    if (squareref.current) {
+      squareref.current.quaternion.copy(camera.quaternion);
+    }
+  });
 
   const getAsteroidSize = (id: string): number => {
     if (!asteroidFeed) return 0.05; // fallback size
@@ -35,18 +49,20 @@ export default function Asteroids() {
     }
     return 0.05;
   };
-  const [, setOrbitObject] = useAtom(orbitTargetAtom);
-  const shapeMapRef = useRef<{ [id: string]: number }>({});
-  const squareref = useRef<THREE.LineSegments>(null!);
-  const { camera } = useThree();
-
-  useFrame(() => {
-    if (squareref.current) {
-      squareref.current.quaternion.copy(camera.quaternion);
+  
+  // New helper function to check if an asteroid is hazardous
+  const isHazardous = (id: string): boolean => {
+    if (!asteroidFeed) return false;
+    for (const date in asteroidFeed.near_earth_objects) {
+      const neos: Neo[] = asteroidFeed.near_earth_objects[date];
+      const found = neos.find((neo) => neo.id === id);
+      if (found) {
+        return found.is_potentially_hazardous_asteroid;
+      }
     }
-  });
+    return false;
+  };
 
-  const [, setCurrentObjectId] = useAtom(currentObjectId);
   return (
     <>
       {Object.entries(plotData).map(([asteroidId, ephemeris]) => {
@@ -71,21 +87,23 @@ export default function Asteroids() {
         const lastPosition = points[points.length - 1];
 
         const handleClick = () => {
-          const axis = lastPosition;
-          setOrbitObject(axis);
+          setOrbitObject(lastPosition);
           setCurrentObjectId(asteroidId);
+          setInfoBar(true);
         };
+
         if (!shapeMapRef.current[asteroidId]) {
           shapeMapRef.current[asteroidId] = Math.floor(Math.random() * 32) + 1;
         }
 
         const shape = shapeMapRef.current[asteroidId];
+        const isSelected = asteroidId === currentId;
+        const isAstHazardous = isHazardous(asteroidId); 
 
         return (
           <group key={asteroidId}>
             <mesh>
-              <tubeGeometry args={[curve, 64, shape / 1000, 10, false]} />
-
+              <tubeGeometry args={[curve, 64, shape / 10000, 10, false]} />
               <meshBasicMaterial color="white" transparent opacity={0.1} />
             </mesh>
             <group
@@ -100,12 +118,35 @@ export default function Asteroids() {
                 document.body.style.cursor = "default";
               }}
             >
+              {isSelected && isAstHazardous && (
+                <mesh>
+                  {(() => {
+                    const localStart = new THREE.Vector3(0, 0, 0);
+
+                    const sunPosition = new THREE.Vector3(149, 0, 0);
+                    const localEnd = sunPosition.clone().sub(lastPosition);
+
+                    const lineCurve = new THREE.LineCurve3(localStart, localEnd);
+
+                    return <tubeGeometry args={[lineCurve, 1, 0.05, 8, false]} />;
+                  })()}
+                  <meshStandardMaterial color="red" />
+                </mesh>
+              )}
+
               <mesh>
                 <sphereGeometry
                   args={[getAsteroidSize(asteroidId), shape, 16]}
                 />
-                <meshStandardMaterial map={AsteroidTexture} />
+                <meshStandardMaterial map={AsteroidTexture} color="white" />
               </mesh>
+
+              {isSelected && (
+                <lineSegments ref={squareref}>
+                  <edgesGeometry args={[new THREE.PlaneGeometry(5, 5)]} />
+                  <lineBasicMaterial color="blue" />
+                </lineSegments>
+              )}
             </group>
           </group>
         );

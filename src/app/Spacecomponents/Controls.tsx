@@ -14,9 +14,6 @@ export default function Controls() {
   const isInteractingRef = useRef(false);
   const isProgrammaticUpdateRef = useRef(false);
 
-  useEffect(() => {
-    console.log("Zoom atom value is now:", zoom);
-  }, [zoom]);
 
   useFrame(() => {
     if (isInteractingRef.current) return;

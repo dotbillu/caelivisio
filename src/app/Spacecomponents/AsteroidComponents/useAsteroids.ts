@@ -53,7 +53,7 @@ export const useAsteroids = () => {
     getObjectPlots();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asteroidIds]);
-
+console.log(asteroids)
   return { asteroids, plotData };
 };
 

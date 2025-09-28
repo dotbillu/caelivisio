@@ -15,6 +15,9 @@ export const ZoomValueAtom = atom<ZoomValue>(0);
 export const orbitTargetAtom = atom(new THREE.Vector3(0, 0, 0));
 
 export interface Neo {
+  links: {
+    self:string ;
+  };
   id: string;
   name: string;
   nasa_jpl_url: string;
@@ -63,3 +66,5 @@ export interface EphermisWid {
   [id: string]: EphemerisData;
 }
 export const PlotAtom = atom<EphermisWid>({});
+
+export const showInfoBarAtom = atom<boolean>(false);

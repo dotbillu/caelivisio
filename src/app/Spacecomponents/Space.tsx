@@ -1,18 +1,8 @@
 "use client";
-import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { useEffect, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import OrbitLines from "./orbit";
-import Asteroid from "./asteroids";
-import { orbitTargetAtom, ZoomValueAtom } from "../store";
-import { atom, useAtom } from "jotai";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import RandomStars from "./orbitComponents/RandomStars";
+import { Canvas} from "@react-three/fiber";
 import Orbit from "./orbit";
 import Controls from "./Controls";
 
-// assume you already have
 
 export default function Space() {
   return (
