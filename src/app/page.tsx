@@ -1,7 +1,7 @@
 "use client";
 import Space from "./Spacecomponents/Space";
 import InfoBar from "./UIcomponents/Infobar";
-import RightSideBar from "./UIcomponents/RightSideBar";
+
 import ZoomSlider from "./UIcomponents/zoomSlider";
 
 export default function Home() {
@@ -16,9 +16,7 @@ export default function Home() {
       <div className="absolute w-full top-0 left-0 z-10">
         <InfoBar />
       </div>
-      <div className="absolute w-full top-0 left-0 z-10">
-        <RightSideBar/>
-      </div>
+      
       {/* Example: bottom UI (zoom slider) */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
         <ZoomSlider />

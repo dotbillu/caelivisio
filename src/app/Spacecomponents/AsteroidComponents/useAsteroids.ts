@@ -2,21 +2,22 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import axios from "axios";
-import { asteroidsAtom, PlotAtom } from "@/app/store";
+import { asteroidsAtom, PlotAtom, Neo, NeoFeed, EphermisWid } from "@/app/store";
 
 export const useAsteroids = () => {
-  const [asteroids, setAsteroids] = useAtom(asteroidsAtom);
-  const [plotData, setPlotData] = useAtom(PlotAtom);
+  const [asteroids, setAsteroids] = useAtom<NeoFeed | null>(asteroidsAtom);
+  const [plotData, setPlotData] = useAtom<EphermisWid>(PlotAtom);
   const [asteroidIds, setAsteroidIds] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchAsteroidList = async () => {
       try {
         const res = await fetch("/assets/AsteroidData.json");
-        const data = await res.json();
+        const data: NeoFeed = await res.json(); 
         setAsteroids(data);
+
         const allIds = Object.values(data.near_earth_objects).flatMap(
-          (neos: any) => neos.map((neo: any) => neo.id)
+          (neos: Neo[]) => neos.map((neo) => neo.id)
         );
         setAsteroidIds(allIds);
       } catch (err) {
@@ -33,7 +34,7 @@ export const useAsteroids = () => {
       console.log(`Fetching plots for ${asteroidIds.length} asteroids...`);
       for (const id of asteroidIds) {
         try {
-          const resp = await axios.get(`/api/horizons?id=${id}`);
+          const resp = await axios.get<EphermisWid>(`/api/horizons?id=${id}`);
           const ephemerisForId = resp.data?.[id];
 
           if (ephemerisForId) {
@@ -53,7 +54,8 @@ export const useAsteroids = () => {
     getObjectPlots();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asteroidIds]);
-console.log(asteroids)
+
+  console.log(asteroids);
   return { asteroids, plotData };
 };
 

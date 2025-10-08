@@ -1,7 +1,6 @@
 import { EphemerisData, EphemerisEntry, EphermisWid } from "@/app/store";
 import axios from "axios";
 
-
 export default async function fetchHorizons(
   id: string,
 ): Promise<EphermisWid> {
@@ -48,14 +47,24 @@ export default async function fetchHorizons(
       );
 
       if (posMatch && currentDate) {
-        const pos = posMatch.slice(1, 4).map(Number);
+        // Change #1: Add type assertion here
+        const pos = posMatch.slice(1, 4).map(Number) as [
+          number,
+          number,
+          number,
+        ];
 
         const velLine = lines[i + 1]?.trim();
         const velMatch = velLine?.match(
           /VX\s*=\s*([-\d.E+]+)\s*VY\s*=\s*([-\d.E+]+)\s*VZ\s*=\s*([-\d.E+]+)/,
         );
         if (velMatch) {
-          const vel = velMatch.slice(1, 4).map(Number);
+          // Change #2: Add type assertion here
+          const vel = velMatch.slice(1, 4).map(Number) as [
+            number,
+            number,
+            number,
+          ];
           data[currentDate] = { pos, vel };
         }
       }
