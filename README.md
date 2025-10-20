@@ -44,7 +44,7 @@ Make sure you have [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/dotbillu/caelivisio](https://github.com/dotbillu/caelivisio)
+    git clone "github.com/dotbillu/caelivisio"
     ```
 2.  **Navigate to the project directory:**
     ```sh
